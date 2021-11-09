@@ -1,0 +1,34 @@
+$("#save").click(function() {
+       var id = $("#id").val();
+       if (id == 0) {
+          $.ajax({
+              url: "\checkTravelDate",
+              type: "post",
+              dataType: "JSON",
+              data: $("#frm").serialize(),
+              beforeSend: function() { $('.error').hide();},
+              success: function(d) {
+                 console.log(d);
+                 if (d.status == "success") alert(d.message);
+                 else {
+                    alert(d.message);
+                    Object.keys(d).forEach(function(value) {
+                       $('#' + value).after(d[value]);
+                    })
+                 }
+             },
+          });
+       }
+       else{
+          $.ajax({
+            url: "editUser",
+            type: "post",
+            dataType: "JSON",
+            data: $("#frm").serialize(),
+            success: function(d) {
+                    alert(d);
+                    $("#frm")[0].reset();
+            }
+          });
+       }
+   });
